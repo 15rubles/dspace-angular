@@ -30,9 +30,8 @@ import { hasValueOperator } from '../shared/empty.util';
 export class RootComponent implements OnInit {
   sidebarVisible: Observable<boolean>;
   slideSidebarOver: Observable<boolean>;
-  collapsedSidebarWidth: Observable<string>;
-  totalSidebarWidth: Observable<string>;
-  theme: Observable<ThemeConfig> = of({} as any);
+  collapsedSidebarWidth$: Observable<string>;  theme: Observable<ThemeConfig> = of({} as any);
+  expandedSidebarWidth$: Observable<string>;
   notificationOptions;
   models;
 
@@ -62,13 +61,13 @@ export class RootComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sidebarVisible = this.menuService.isMenuVisibleWithVisibleSections(MenuID.ADMIN);
+    this.isSidebarVisible$ = this.menuService.isMenuVisibleWithVisibleSections(MenuID.ADMIN);
 
-    this.collapsedSidebarWidth = this.cssService.getVariable('--ds-collapsed-sidebar-width').pipe(hasValueOperator());
-    this.totalSidebarWidth = this.cssService.getVariable('--ds-total-sidebar-width').pipe(hasValueOperator());
+    this.expandedSidebarWidth$ = this.cssService.getVariable('--ds-admin-sidebar-total-width');
+    this.collapsedSidebarWidth$ = this.cssService.getVariable('--ds-admin-sidebar-fixed-element-width');
 
     const sidebarCollapsed = this.menuService.isMenuCollapsed(MenuID.ADMIN);
-    this.slideSidebarOver = combineLatestObservable([sidebarCollapsed, this.windowService.isXsOrSm()])
+    this.slideSidebarOver$ = combineLatestObservable([sidebarCollapsed, this.windowService.isXsOrSm()])
       .pipe(
         map(([collapsed, mobile]) => collapsed || mobile),
         startWith(true),
