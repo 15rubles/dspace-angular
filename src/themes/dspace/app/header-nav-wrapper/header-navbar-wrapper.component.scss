@@ -12,12 +12,15 @@
       width: 100%;
       background-color: var(--ds-expandable-navbar-bg);
       position: absolute;
-      border-bottom: var(--ds-header-navbar-border-bottom-style);
       z-index: var(--ds-nav-z-index);
       overflow: hidden;
-      // Following parameters are changed by slideMobileNav animation
-      min-height: var(--ds-collapsible-navbar-height);
-      height: auto;
+
+      nav#collapsible-mobile-navbar {
+        // Following parameters are changed by slideMobileNav animation
+        min-height: var(--ds-collapsible-navbar-height);
+        height: auto;
+        border-bottom: var(--ds-header-navbar-border-bottom-style);
+      }
     }
   }
 
